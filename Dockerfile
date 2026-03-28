@@ -1,0 +1,11 @@
+FROM python:3.12-slim
+
+WORKDIR /app
+COPY pyproject.toml README.md /app/
+COPY apps /app/apps
+COPY packages /app/packages
+COPY scripts /app/scripts
+
+RUN pip install --no-cache-dir -e .
+
+CMD ["sh", "-c", "uvicorn apps.api.main:app --host 0.0.0.0 --port ${PORT:-8080}"]
